@@ -1,12 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import { FormControl, Select, MenuItem, Card, CardContent } from '@material-ui/core';
+import { FormControl, Select, MenuItem, Card, CardContent, Button } from '@material-ui/core';
 import InfoBox from './InfoBox';
 import Map from './Map';
 import Table from './Table';
 import { sortData, prettyPrintStat } from "./util";
 import LineGraph from './LineGraph';
 import "leaflet/dist/leaflet.css";
+import {useHistory} from 'react-router-dom';
+
+
+
 
 function App() {
 
@@ -72,12 +76,16 @@ function App() {
             setMapZoom(4);
         })
     };
-
+    const history = useHistory();
     return ( 
         <div className = "app">  
           <div className="app__left">
-            <div className="app__header">
-            <h1> COVID-19 Tracker </h1>   
+          <div className="app__header">
+            <h1> COVID-19 Tracker </h1>  
+            <Button variant="contained" color="secondary" onClick={() => history.push('/India')} >
+                India
+            </Button>
+           
             <FormControl className = "app__dropdown">        
                 <Select variant="outlined" onChange={onCountryChange} value={country}> 
 

@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+}
+
+.india__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+body {
+  background-color: #f5f6fa;
+}
+
+.india__left {
+  flex: 0.9;
+}
