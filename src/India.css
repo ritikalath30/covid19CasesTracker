@@ -1,6 +1,11 @@
 * {
   margin: 0;
 }
+.india {
+  display:flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
 
 .india__header {
   display: flex;
@@ -8,11 +13,23 @@
   align-items: center;
   margin-bottom: 20px;
 }
+.india__left {
+  flex:0.7;
+}
 
 body {
   background-color: #f5f6fa;
+}
+.india__stats {
+  display:flex;
 }
 
 .india__left {
   flex: 0.9;
 }
+@media (max-width: 990px) {
+  .india {
+    flex-direction: column;
+  }
+}
+
