@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import InfoBox from './InfoBox';
 import Indiamap from './Indiamap';
 import Table2 from './Table2'
+import Loader from './Loader';
 
 function India() {
 
@@ -12,19 +13,25 @@ function India() {
     
     const [states, setStates] = useState([]);
     const [state, setState] = useState('india');
-    const [stateInfo,setStateInfo] = useState({});
+    const [stateInfo,setStateInfo] = useState([]);
     const[tableData,setTableData] = useState([]);
+    const[loading,setLoading]= useState(true);
 
+// UseEffects:-
+
+    // india chya InfoBox chya data sathi
     useEffect(() => {
         fetch("https://www.trackcorona.live/api/countries/in")
         .then((response) => response.json())
         .then((data) => {
+            
             setStateInfo(data);
+            setLoading(false)
         });
         
     }, [])
   
-    // UseEffects:-
+    // Dropdown chya values sathi
     useEffect(() => {
         // async = send a request, wait for it and do something with the info
         const getStatesData = async () => {
@@ -40,38 +47,45 @@ function India() {
                     }
                 
                  ) );
-
+                 
                 setTableData(data);
                 setStates(states);
             });
             
         };
         getStatesData();
+        console.log(states);   
 
     }, []);
 
     const onStateChange = async (event) => {
+        setLoading(true);
         const stateCode = event.target.value;
         setState(stateCode);
         const url = stateCode === 'india' ? 'https://www.trackcorona.live/api/countries/in' 
         : `https://www.trackcorona.live/api/provinces/${stateCode}`
         await fetch(url)
-        .then(response => response.json())
+        .then((response) => response.json())
         .then((data) => {
-            const stateInfo = data.data.map((location) => (
-                {
-                    confirmedCase : location.confirmed,
-                    deadCase : location.dead,
-                    recoveredCase : location.recovered
-                }
-            ));
+            // const stateInfo = data.data.map((location) => (
+            //     {
+            //         confirmedCase : location.confirmed,
+            //         deadCase : location.dead,
+            //         recoveredCase : location.recovered
+            //     }
+            // ));
             setState(stateCode);
-            // setStateInfo(data);
-            setStateInfo(stateInfo)
+            setStateInfo(data);
+            setLoading(false);
+            // setStateInfo(stateInfo)
         });
         
         };
         console.log("state info", stateInfo );
+
+        if(loading){
+            return <Loader />
+        }
 
     return (
         <div className="india">
@@ -114,16 +128,17 @@ function India() {
             // cases={stateInfo.map((location) => (
             //     {locationconfirmedCase}
             // ))} 
-            cases = {stateInfo.confirmedCase}
-            // total={prettyPrintStat(countryInfo.cases)}
+            // cases = {456}
+            cases={stateInfo.data[0].confirmed}
 
             />
             <InfoBox
             // active={casesType === "recovered"}
             // onClick={(e) => setCasesType("recovered")}  
             title="Recovered" 
-            // cases={prettyPrintStat(countryInfo.todayRecovered)} 
-            // total={prettyPrintStat(countryInfo.recovered)}
+            // cases={1234} 
+            cases={stateInfo.data[0].recovered}
+            // total={1234}
 
             />
             <InfoBox 
@@ -131,8 +146,8 @@ function India() {
             // active={casesType === "deaths"}
             // onClick={(e) => setCasesType("deaths")} 
             title="Deaths" 
-            // cases={prettyPrintStat(countryInfo.todayDeaths)} 
-            // total={prettyPrintStat(countryInfo.deaths)}
+            // cases={234} 
+            cases={stateInfo.data[0].dead}
 
             />
                       {/* InfoBoxes */}
@@ -152,7 +167,7 @@ function India() {
                      <CardContent>
                      <h1>Live cases by States</h1>
                      </CardContent>
-            </Card>
+            
         
           
 
@@ -163,7 +178,7 @@ function India() {
 
             {/* Graph */}
 
-
+            </Card>
 
         </div>
     )

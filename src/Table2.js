@@ -3,17 +3,18 @@ import './Table.css';
 import numeral from "numeral";
 
 
-function Table2({ states}) {
+function Table2({ states }) {
     return (
         <div className="table" >
-        {states.map(({state, active}) => (
+        {states.data.statewise.map((state, active) => (
             <tr>
                <td>{state}</td>
                <td>
-                   <strong>{numeral(active).format("0,0")}</strong>
+                   <strong>{active}</strong>
                </td>
            </tr>
         ))}    
+        
         </div>
     )
 }

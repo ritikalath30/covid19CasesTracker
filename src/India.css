@@ -2,7 +2,7 @@
   margin: 0;
 }
 .india {
-  display:flex;
+  display: flex;
   justify-content: space-evenly;
   padding: 20px;
 }
@@ -14,14 +14,14 @@
   margin-bottom: 20px;
 }
 .india__left {
-  flex:0.7;
+  flex: 0.7;
 }
 
 body {
   background-color: #f5f6fa;
 }
 .india__stats {
-  display:flex;
+  display: flex;
 }
 
 .india__left {
@@ -32,4 +32,3 @@ body {
     flex-direction: column;
   }
 }
-
