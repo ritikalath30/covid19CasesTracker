@@ -1,12 +1,12 @@
 import React from 'react'
-import './Table.css';
+import './Table2.css';
 import numeral from "numeral";
 
 
 function Table2({ states }) {
     return (
         <div className="table" >
-        {states.data.statewise.map((state, active) => (
+        {states.map(({state ,active}) => (
             <tr>
                <td>{state}</td>
                <td>
@@ -14,6 +14,7 @@ function Table2({ states }) {
                </td>
            </tr>
         ))}    
+        
         
         </div>
     )

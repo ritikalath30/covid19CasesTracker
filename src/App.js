@@ -50,7 +50,9 @@ function App() {
                 ));
                 const sortedData = sortData(data);
                 setTableData(sortedData);
+               
                 setMapCountries(data);
+                console.log(data);
                 setCountries(countries);
             });
             
@@ -73,6 +75,7 @@ function App() {
             // All of the data from the country response
             setCountryInfo(data);
             setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+            
             setMapZoom(4);
         })
     };

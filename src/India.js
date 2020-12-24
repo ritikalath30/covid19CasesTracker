@@ -3,9 +3,14 @@ import './India.css';
 import { FormControl, Select, MenuItem, Card, CardContent } from '@material-ui/core';
 import Navbar from './components/Navbar';
 import InfoBox from './InfoBox';
-import Indiamap from './Indiamap';
+
 import Table2 from './Table2'
 import Loader from './Loader';
+
+import Map2 from './Map2'
+import "leaflet/dist/leaflet.css";
+
+
 
 function India() {
 
@@ -16,6 +21,10 @@ function India() {
     const [stateInfo,setStateInfo] = useState([]);
     const[tableData,setTableData] = useState([]);
     const[loading,setLoading]= useState(true);
+    const [mapCenter, setMapCenter] = useState({ lat: 20.593684, lng: 78.96288 });
+    const [mapZoom, setMapZoom] = useState(4);
+    
+    const [mapStates, setMapStates] = useState([]);
 
 // UseEffects:-
 
@@ -47,14 +56,17 @@ function India() {
                     }
                 
                  ) );
-                 
-                setTableData(data);
+                  
+                setTableData(data.data.statewise);
+                
+                console.log(data)
+                setMapStates(data); 
                 setStates(states);
             });
             
         };
         getStatesData();
-        console.log(states);   
+        
 
     }, []);
 
@@ -67,34 +79,32 @@ function India() {
         await fetch(url)
         .then((response) => response.json())
         .then((data) => {
-            // const stateInfo = data.data.map((location) => (
-            //     {
-            //         confirmedCase : location.confirmed,
-            //         deadCase : location.dead,
-            //         recoveredCase : location.recovered
-            //     }
-            // ));
+      
             setState(stateCode);
             setStateInfo(data);
+            
             setLoading(false);
+            
+            setMapCenter([stateInfo.data[0].latitude, stateInfo.data[0].longitude]);
+            setMapZoom(6);
             // setStateInfo(stateInfo)
         });
-        
+     
         };
-        console.log("state info", stateInfo );
+        // console.log("state info", stateInfo );
 
         if(loading){
             return <Loader />
         }
 
-    return (
+        return (
         <div className="india">
             
 
             {/* Header */}
 
             {/* SideMenu */}
-            <Navbar/>
+            {/* <Navbar/> */}
            
                 
 
@@ -159,7 +169,11 @@ function India() {
 
            
                 {/* Map */}
-            <Indiamap />
+            <Map2 
+                states={mapStates}
+                center={mapCenter}
+                zoom={mapZoom}
+            />
                 
             {/* Prediction textboxes */}
             </div>
